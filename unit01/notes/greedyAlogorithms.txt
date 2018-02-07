@@ -1,0 +1,59 @@
+--Optimization Problems 1:2--
+[Greedy Algorithm a Practical Alternative]
+- while the knapsack is not full put "best" available item in knapsack
+- But what does best mean?
+  • most valuable?
+  • least expensive?
+  • highest value/units?
+
+[Food Example]
+Menu: {
+  "wine": {"value": 80, "calories": 123},
+  "beer": {"value": 90, "calories": 154},
+  "pizza": {"value": 30, "calories": 258},
+  "burger": {"value": 50, "calories": 354},
+  "fries": {"value": 90, "calories": 365},
+  "coke": {"value": 79, "calories": 150},
+  "apple": {"value": 90, "calories": 95},
+  "donut": {"value": 10, "calories": 195}
+}
+
+class Food(object):
+  def __init__(self, n, v, w):
+    self.name = m
+    self.value = v
+    self.calories = w
+
+  def getValue(self):
+    return self.value
+
+  def getCost(self):
+    return self.calories
+
+  def density(self):
+    return self.getValue() / self.getCost()
+
+  def __str__(self):
+    return self.name + ": <" + str(self.value) + ", " + str(self.calories) + ">"
+
+def buildMenu(names, values, calories):
+  """names, values, calories lists of same length"""
+  menu = []
+  for i in range(len(values)):
+    menu.append(Food(names[i], values[i], calories[i]))
+  return menu
+
+def greed(items, maxCost, keyFunction):
+  """Assumes items a list, maxCost >=0, keyFunction maps elements of items to numbers"""
+  itemsCopy = sorted(items, key = keyFunction, reverse = True)
+
+  result = []
+  totalValue, totalCost = 0.0, 0.0
+
+  for i in range(len(itemsCopy)):
+    if (totalCost+itemsCopy[1].getCost()) <= maxCost:
+      result.append(itemsCopy[i])
+      totalCost += itemsCopy[i].getCost()
+      totalValue += itemsCopy[i].getValue()
+
+  return (result, totalValue)
